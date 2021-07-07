@@ -11,15 +11,15 @@ source:
   sha256: 62fef99873ad975ddd8356923b3d51ed316209c1a05ac85814219373a13ae4d5
 
 build:
-  number: 0
-  skip: true  # [win]
+  number: 1
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - cmake
-    - ninja
+    - cmake {{ cmake }}
+    - ninja {{ ninja }}
+    - make 
 
 test:
   commands:
@@ -33,4 +33,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - xhochy
+    - open-ce/open-ce-dev-team
