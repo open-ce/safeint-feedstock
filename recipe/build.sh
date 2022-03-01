@@ -1,6 +1,6 @@
 #!/bin/bash
 # *****************************************************************
-# (C) Copyright IBM Corp. 2021. All Rights Reserved.
+# (C) Copyright IBM Corp. 2021, 2022. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,12 @@ elif [ $ARCH == "x86_64" ]; then
     ARCH_PREFIX="x86_64-conda_cos6"
 fi
 
-export CMAKE_ARGS="-DCMAKE_AR=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-gcc-ar -DCMAKE_RANLIB=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-gcc-ranlib -DCMAKE_LINKER=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-ld -DCMAKE_STRIP=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-strip -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;$BUILD_PREFIX/${ARCH_PREFIX}-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib"
+if [[ $ppc_arch != "p10" ]]
+then
+    export CMAKE_ARGS="-DCMAKE_AR=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-gcc-ar -DCMAKE_RANLIB=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-gcc-ranlib -DCMAKE_LINKER=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-ld -DCMAKE_STRIP=$BUILD_PREFIX/bin/${ARCH_PREFIX}-linux-gnu-strip"
+fi
+
+export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;$BUILD_PREFIX/${ARCH_PREFIX}-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib"
 
 mkdir -p build
 pushd build
